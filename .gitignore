@@ -51,4 +51,6 @@ dist-ssr
 *.local
 
 .turbo
-
+.env
+pgdata
+.cache
