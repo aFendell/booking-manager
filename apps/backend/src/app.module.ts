@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 
 import { configValidationSchema } from './config.schema';
+import { EmployeesModule } from './employees/employees.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { configValidationSchema } from './config.schema';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../..', 'frontend', 'dist'),
     }),
+    EmployeesModule,
+    BookingsModule,
   ],
 })
 export class AppModule {}
