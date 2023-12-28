@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import Layout from 'components/layout/Layout';
+
+type Employee = {
+  id: string;
+  name: string;
+};
 
 function App() {
-  const [hello, setHello] = useState('');
+  const [employees, setEmployees] = useState<Employee[]>([]);
 
   useEffect(() => {
-    fetch('/api')
-      .then((res) => res.text())
-      .then(setHello);
+    fetch('/api/employees')
+      .then((res) => res.json())
+      .then(setEmployees);
   }, []);
 
   return (
-    <div>
-      <h1>TURBO</h1>
-      <h1>{hello}</h1>
-    </div>
+    <Layout>
+      {employees ? (
+        <ul>
+          {employees.map((employee) => (
+            <li>
+              <div>{employee.name}</div>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </Layout>
   );
 }
 
