@@ -5,13 +5,16 @@ type Employee = {
 
 export type EmployeesList = Employee[];
 
-type Slot = string;
-
-type SlotList = Slot[];
-
-type EmployeeAvailableSlots = {
+type SlotsItem = {
   employeeId: string;
-  availableSlots: SlotList;
+  availableSlots: string[];
 };
 
-export type AvailableSlots = EmployeeAvailableSlots[];
+export type SlotsList = SlotsItem[];
+
+export type Booking = {
+  id: string;
+  date: Date;
+  time: Date;
+  employee: Employee;
+};

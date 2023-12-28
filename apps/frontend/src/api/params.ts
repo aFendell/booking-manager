@@ -1,4 +1,4 @@
-export type SlotsParams = {
+export type AvailableSlotsParams = {
   date: string;
   employeeId?: string;
 };

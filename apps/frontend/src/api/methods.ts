@@ -1,13 +1,13 @@
 import axiosClient from './axiosClient';
 import { HTTPMethod } from './types';
-import { AvailableSlots, EmployeesList } from './response';
-import { SlotsParams } from './params';
+import { SlotsList, EmployeesList } from './response';
+import { AvailableSlotsParams } from './params';
 
 const employeesUrl = 'employees';
-const slotsUrl = '/slots';
+const slotsUrl = 'slots';
 
 export const EmployeesAPI = {
-  getAllEmployees: async () => {
+  getEmployees: async () => {
     const { data } = await axiosClient<EmployeesList>({
       url: `/${employeesUrl}`,
       method: HTTPMethod.GET,
@@ -18,8 +18,8 @@ export const EmployeesAPI = {
 };
 
 export const SlotsAPI = {
-  getAvailableSlots: async (params: SlotsParams) => {
-    const { data } = await axiosClient<AvailableSlots>({
+  getSlots: async (params?: AvailableSlotsParams) => {
+    const { data } = await axiosClient<SlotsList>({
       url: `/${slotsUrl}`,
       method: HTTPMethod.GET,
       params,
