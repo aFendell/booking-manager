@@ -12,8 +12,8 @@ export class EmployeesController {
   }
 
   @Get()
-  getEmployees() {
-    return this.employeesService.getEmployees();
+  getAllEmployees() {
+    return this.employeesService.getAllEmployees();
   }
 
   @Get(':id')

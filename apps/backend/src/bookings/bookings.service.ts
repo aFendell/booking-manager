@@ -32,7 +32,7 @@ export class BookingsService {
 
       return [{ employeeId, availableSlots }];
     } else {
-      const employees = await this.employeesService.getEmployees();
+      const employees = await this.employeesService.getAllEmployees();
       const bookings = await this.bookingsRepository.getBookings({ date });
 
       const results = employees.map((employee) => {

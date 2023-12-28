@@ -1,31 +1,36 @@
-import { useEffect, useState } from 'react';
 import Layout from 'components/layout/Layout';
-
-type Employee = {
-  id: string;
-  name: string;
-};
+import { useQuery } from '@tanstack/react-query';
+import { EmployeesAPI } from 'api/methods';
 
 function App() {
-  const [employees, setEmployees] = useState<Employee[]>([]);
+  const {
+    data: employees,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['getEmployees'],
+    queryFn: () => EmployeesAPI.getAllEmployees(),
+  });
 
-  useEffect(() => {
-    fetch('/api/employees')
-      .then((res) => res.json())
-      .then(setEmployees);
-  }, []);
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <h2>An error has occurd: {error.message}</h2>;
 
   return (
     <Layout>
-      {employees ? (
-        <ul>
-          {employees.map((employee) => (
-            <li>
-              <div>{employee.name}</div>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      <div>
+        {!employees ? (
+          <div>No employees to display</div>
+        ) : (
+          <ul>
+            {employees.map((employee) => (
+              <li key={employee.id}>
+                <div>{employee.name}</div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </Layout>
   );
 }

@@ -13,7 +13,7 @@ export class EmployeesService {
     return this.employeesRepository.createEmployee(createEmployeeDto);
   }
 
-  async getEmployees() {
+  async getAllEmployees() {
     const employees = await this.employeesRepository.find();
     return employees;
   }
