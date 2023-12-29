@@ -1,10 +1,12 @@
 import axiosClient from './axiosClient';
 import { HTTPMethod } from './types';
-import { SlotsList, EmployeesList } from './response';
+import { SlotsList, EmployeesList, Booking } from './response';
 import { AvailableSlotsParams } from './params';
+import { CreateBooking } from './payload';
 
 const employeesUrl = 'employees';
 const slotsUrl = 'slots';
+const bookingUrl = 'booking';
 
 export const EmployeesAPI = {
   getEmployees: async () => {
@@ -23,6 +25,18 @@ export const SlotsAPI = {
       url: `/${slotsUrl}`,
       method: HTTPMethod.GET,
       params,
+    });
+
+    return data;
+  },
+};
+
+export const BookingAPI = {
+  createBooking: async (payload: CreateBooking) => {
+    const { data } = await axiosClient<Booking>({
+      url: bookingUrl,
+      method: HTTPMethod.POST,
+      data: payload,
     });
 
     return data;

@@ -1,11 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Booking } from './booking.entity';
 import { GetAvailableSlotsDto } from './dto/get-slots-dto';
+import { CreateBookingDto } from './dto/create-booking-dto';
+import { EmployeesService } from 'src/employees/employees.service';
 
 @Injectable()
 export class BookingsRepository extends Repository<Booking> {
-  constructor(private dataSource: DataSource) {
+  constructor(
+    private dataSource: DataSource,
+    @Inject(EmployeesService) private employeesService: EmployeesService,
+  ) {
     super(Booking, dataSource.createEntityManager());
   }
 
@@ -23,5 +28,21 @@ export class BookingsRepository extends Repository<Booking> {
     const bookings = await query.getMany();
 
     return bookings;
+  }
+
+  async createBooking(createBookingDto: CreateBookingDto) {
+    const { employeeId, date, time } = createBookingDto;
+
+    const employee = await this.employeesService.getEmployeeById(employeeId);
+
+    const booking = this.create({
+      employee,
+      date,
+      time,
+    });
+
+    await this.save(booking);
+
+    return booking;
   }
 }

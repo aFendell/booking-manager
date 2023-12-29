@@ -1,18 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { EmployeesAPI, SlotsAPI } from 'api/methods';
+import { BookingAPI, EmployeesAPI, SlotsAPI } from 'api/methods';
 import { AvailableSlotsParams } from 'api/params';
 import { EmployeesList, SlotsList } from 'api/response';
-import { CreateBooking } from 'api/payload';
 
 import { getNewDate } from 'utils/dates.utils';
 import { FormProvider } from 'components/forms/Form';
 import SelectField, { SelectItemProps } from 'components/forms/SelectField';
 import DatePickerField from 'components/forms/DatePickerField';
 import { Button } from 'components/ui/Button';
+import { CreateBooking } from 'api/payload';
 
 const FormSchema = z.object({
   employeeId: z.string().uuid(),
@@ -76,8 +76,20 @@ const BookingForm = () => {
     return options;
   };
 
+  const { mutate: createBooking } = useMutation({
+    mutationKey: ['createBooking'],
+    mutationFn: (data: CreateBooking) => BookingAPI.createBooking(data),
+    onSuccess: (data) => {
+      console.log('created', data);
+    },
+    onError: (error) => {
+      console.log('error', error?.message);
+    },
+  });
+
   const onSubmit = (values: CreateBooking) => {
     console.log('create booking:', values);
+    createBooking(values);
   };
 
   return (

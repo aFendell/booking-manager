@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BookingsRepository } from './bookings.repository';
 import { EmployeesService } from 'src/employees/employees.service';
 import { Booking } from './booking.entity';
+import { CreateBookingDto } from './dto/create-booking-dto';
 
 @Injectable()
 export class BookingsService {
@@ -50,6 +51,10 @@ export class BookingsService {
 
       return results;
     }
+  }
+
+  async createBooking(createBookingDto: CreateBookingDto) {
+    return await this.bookingsRepository.createBooking(createBookingDto);
   }
 
   getEmployeeAvailableSlots(bookings: Booking[], slotsOptions: string[]) {
